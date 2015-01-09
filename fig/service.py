@@ -237,7 +237,8 @@ class Service(object):
         new_container = self.create_container(**options)
         self.start_container(new_container, intermediate_container=intermediate_container)
 
-        intermediate_container.remove()
+        # commented out due to https://github.com/docker/fig/issues/707
+        #intermediate_container.remove()
 
         return (intermediate_container, new_container)
 
