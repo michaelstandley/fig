@@ -167,7 +167,7 @@ class Project(object):
             else:
                 log.info('%s uses an image, skipping' % service.name)
 
-    def up(self, service_names=None, start_links=True, recreate=True, insecure_registry=False):
+    def up(self, service_names=None, start_links=True, recreate=True, insecure_registry=True):
         running_containers = []
         for service in self.get_services(service_names, include_links=start_links):
             if recreate:
@@ -179,7 +179,7 @@ class Project(object):
 
         return running_containers
 
-    def pull(self, service_names=None, insecure_registry=False):
+    def pull(self, service_names=None, insecure_registry=True):
         for service in self.get_services(service_names, include_links=True):
             service.pull(insecure_registry=insecure_registry)
 

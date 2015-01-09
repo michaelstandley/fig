@@ -168,7 +168,7 @@ class Service(object):
                 log.info("Removing %s..." % c.name)
                 c.remove(**options)
 
-    def create_container(self, one_off=False, insecure_registry=False, **override_options):
+    def create_container(self, one_off=False, insecure_registry=True, **override_options):
         """
         Create a container for this service. If the image doesn't exist, attempt to pull
         it.
@@ -188,7 +188,7 @@ class Service(object):
                 return Container.create(self.client, **container_options)
             raise
 
-    def recreate_containers(self, insecure_registry=False, **override_options):
+    def recreate_containers(self, insecure_registry=True, **override_options):
         """
         If a container for this service doesn't exist, create and start one. If there are
         any, stop them, create+start new ones, and remove the old containers.
@@ -274,7 +274,7 @@ class Service(object):
         )
         return container
 
-    def start_or_create_containers(self, insecure_registry=False):
+    def start_or_create_containers(self, insecure_registry=True):
         containers = self.containers(stopped=True)
 
         if not containers:
@@ -427,7 +427,7 @@ class Service(object):
                 return False
         return True
 
-    def pull(self, insecure_registry=False):
+    def pull(self, insecure_registry=True):
         if 'image' in self.options:
             log.info('Pulling %s (%s)...' % (self.name, self.options.get('image')))
             self.client.pull(
