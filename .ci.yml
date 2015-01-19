@@ -1,4 +1,4 @@
-image: docker.registry/release_engineering/dotci_ruby_builder
+image: docker.registry/release_engineering/dotci_docker_builder
 run_params: "-v /var/run/docker.sock:/docker.sock -v /usr/bin/docker:/bin/docker -e DOCKER_HOST=unix:///docker.sock"
 command:
   - docker build -t docker.registry/release_engineering/fig:latest .
