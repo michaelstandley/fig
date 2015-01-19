@@ -1,0 +1,7 @@
+image: docker.registry/release_engineering/dotci_ruby_builder
+run_params: "-v /var/run/docker.sock:/docker.sock -v /usr/bin/docker:/bin/docker -e DOCKER_HOST=unix:///docker.sock"
+command:
+  - docker build -t docker.registry/release_engineering/fig:latest .
+  - docker push docker.registry/release_engineering/fig:latest
+  - docker tag docker.registry/release_engineering/fig:latest docker.registry/release_engineering/fig:$DOTCI_SHA
+  - docker push docker.registry/release_engineering/fig:$DOTCI_SHA
