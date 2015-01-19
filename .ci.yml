@@ -1,7 +1,11 @@
+<% // Groovy templating which defines the name of your docker image based on the git repos name
+  def dockerImageName = JOB_NAME.replaceAll('-','_').replaceAll('^','docker.registry/')
+  def dockerBuild = "docker build -t ${dockerImageName}:latest . "
+  def dockerTag = "docker tag ${dockerImageName}:latest ${dockerImageName}:${DOTCI_SHA}"
+  def dockerPush = "docker push ${dockerImageName}"
+  def dockerPushCommand = "${dockerBuild} && ${dockerTag} && ${dockerPush}"
+%>
 image: docker.registry/release_engineering/dotci_docker_builder
 run_params: "-v /var/run/docker.sock:/docker.sock -v /usr/bin/docker:/bin/docker -e DOCKER_HOST=unix:///docker.sock"
 command:
-  - docker build -t docker.registry/release_engineering/fig:latest .
-  - docker push docker.registry/release_engineering/fig:latest
-  - docker tag docker.registry/release_engineering/fig:latest docker.registry/release_engineering/fig:$DOTCI_SHA
-  - docker push docker.registry/release_engineering/fig:$DOTCI_SHA
+  - <% out << dockerPushCommand %>
