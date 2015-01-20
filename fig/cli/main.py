@@ -411,7 +411,7 @@ class TopLevelCommand(Command):
             --no-deps             Don't start linked services.
             --no-recreate         If containers already exist, don't recreate them.
         """
-        insecure_registry = options['--allow-insecure-ssl']
+        insecure_registry = True
         detached = options['-d']
 
         monochrome = options['--no-color']
