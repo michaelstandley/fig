@@ -66,6 +66,8 @@ class Project(object):
     def from_config(cls, name, config, client):
         dicts = []
         for service_name, service in list(config.items()):
+            if service_name.startswith("_"):
+                continue
             if not isinstance(service, dict):
                 raise ConfigurationError('Service "%s" doesn\'t have any configuration options. All top level keys in your fig.yml must map to a dictionary of configuration options.')
             service['name'] = service_name
